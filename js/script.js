@@ -1,24 +1,27 @@
 /*eslint-env browser*/
 
-//all employees
-let allEmployees = [[80180181, "Ritesh Deshmukh", 1298, "edeshmukh@gmail.com", "Marketing"],
-    [80180182, "Genelia Deshmukh", 1278, "gdeshmukh@gmail.com", "Sales"],
-    [80180183, "Shahid Kapoor", 6778, "skapoor12@gmail.com", "Administrative"],
-    [80180184, "Meera Kapoor", 9090, "mkapoor78@gmail.com", "Executive"],
-    [80180185, "Kiara Advani", 6789, "kadvani@vgmail.com", "Quality Assurance"]]
+// all employees
+
+let allEmployees = [[101, "Harika Dittakavi", 11, "hdittakavi@gmail.com", "Administrative"],
+    [102, "Priyanka Dittakavi", 12, "pdittakavi@gmail.com", "Executive"],
+    [103, "Meeta Kapoor", 13, "mkapoor@gmail.com", "Marketing"],
+    [104, "Aishwariya Chunduru", 14, "achunduru@gmail.com", "Human Resources"],
+    [105, "Prasanthi Movva", 15, "pmovva@vgmail.com", "Sales"]]
 
 if (localStorage.getItem('employees') !== null) {
     allEmployees = JSON.parse(localStorage.getItem('employees'))
 }
 
-let addform     = document.getElementById('addForm')
+let addEmployeeForm     = document.getElementById('addEmployeeForm')
 let empTable    = document.getElementById('empTable')
 let empCount    = document.getElementById('empCount')
-Gridbuilding()
 
-//add that data
-addform.addEventListener('submit', (e) => {
-    e.preventDefault();
+buildGrid()
+
+// adding the data
+
+addEmployeeForm.addEventListener('submit', (emp) => {
+    emp.preventDefault();
     let employeeID       = parseInt(document.getElementById('id').value)
     let employeeName     = document.getElementById('name').value
     let employeeExtention      = parseInt(document.getElementById('extension').value)
@@ -26,25 +29,26 @@ addform.addEventListener('submit', (e) => {
     let employeeDepartment     = document.getElementById('department').value
     let newEmployees = [employeeID, employeeName, employeeExtention, employeeEmail, employeeDepartment]
     allEmployees.push(newEmployees)
-    Gridbuilding()
-    addform.reset()
-    addform.id.focus()
+    buildGrid()
+    addEmployeeForm.reset()
+    addEmployeeForm.id.focus()
 })
 
-//remove that data
-empTable.addEventListener('click', (e) => {
-    if (e.target.classList.contains('delete')) {
+// removing the data
+
+empTable.addEventListener('click', (emp) => {
+    if (emp.target.classList.contains('delete')) {
         if (confirm('Are you sure you want to delete this employee?')) {
-            let rowIndex = e.target.parentNode.parentNode.rowIndex
+            let rowIndex = emp.target.parentNode.parentNode.rowIndex
             allEmployees.splice(rowIndex - 1, 1)
-            Gridbuilding()
+            buildGrid()
         }
     }
 })
 
-// Build the required grid
+// building the grid
 
-function Gridbuilding() {
+function buildGrid() {
     empTable.lastElementChild.remove()
     let tbody = document.createElement('tbody')
     for (let employee of allEmployees) {
@@ -61,7 +65,7 @@ function Gridbuilding() {
 empTable.appendChild(tbody);
 empCount.value = `(${allEmployees.length})`
 
-//Store the required data
+// storing data
     
 localStorage.setItem('employees', JSON.stringify(allEmployees))
 }
